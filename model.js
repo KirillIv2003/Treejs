@@ -113,10 +113,8 @@ geometryPyramid.computeVertexNormals();
 geometryPyramid.setAttribute('position', new THREE.BufferAttribute(verticesPyramid, 3));
 geometryPyramid.setIndex(new THREE.BufferAttribute(indicesPyramid, 1));
 
-// Создаем материал
 const materialPyramid = new THREE.MeshBasicMaterial({ color: 0xffff00 });
 
-// Создаем меш и добавляем его на сцену
 const pyramid = new THREE.Mesh(geometryPyramid, materialPyramid);
 pyramid.position.set(-1, 0.2, 1);
 scene.add(pyramid);
