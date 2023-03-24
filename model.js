@@ -20,7 +20,7 @@ const clock = new THREE.Clock();
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, div.clientWidth / div.clientHeight, 0.1, 1000);
-camera.position.set(3, 1.2, 3);
+camera.position.set(-3, 2, -4);
 cameraTarget = new THREE.Vector3(-1, 0.4, 1);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -53,7 +53,8 @@ scene.background = new THREE.Color('#A8A8A8');
 
 // let plane2 = new THREE.Mesh(geometry, material);
 // plane2.position.set(-5, 1, -5);
-
+// mesh.castShadow = true;
+// mesh.receiveShadow = true;  
 //ВЕРТИКАЛЬНАЯ ПЛОСКОСТЬ
 const plane2Geometry = new THREE.BufferGeometry();
 const plane2Width = 10;
@@ -64,17 +65,21 @@ const plane2Vertices = new Float32Array([
     -plane2Width/2, plane2Height, 0,
     plane2Width/2, plane2Height, 0
 ])
+const plane2Indices = new Uint32Array([
+    0, 2, 1, // треугольник 1
+    1, 2, 3 // треугольник 2
+]);
 // let indices = [2, 1, 0, 0, 3, 2];
 // plane2Geometry.setIndex(indices);
 plane2Geometry.computeVertexNormals();
 plane2Geometry.setAttribute('position', new THREE.BufferAttribute(plane2Vertices, 3));
+plane2Geometry.setIndex(new THREE.BufferAttribute(plane2Indices, 1));
 const plane2Material = new THREE.MeshBasicMaterial({color: '#F5F5F5'});
 const plane2 = new THREE.Mesh(plane2Geometry, plane2Material);
 plane2.receiveShadow = true;
 plane2.castShadow = true;
-//plane2.position.x = -5;
-plane2.rotation.y = - Math.PI / 0.15;
 plane2.position.z = 3;
+plane2.rotation.y = 1;
 scene.add(plane2);
 
 
@@ -119,6 +124,7 @@ const pyramid = new THREE.Mesh(geometryPyramid, materialPyramid);
 pyramid.position.set(-1, 0.2, 1);
 scene.add(pyramid);
 pyramid.castShadow = true;
+pyramid.receiveShadow = true;
 document.forms[0].addEventListener('change', (e) => {
     materialPyramid.color.set(e.target.value);
 });
@@ -187,18 +193,17 @@ document.forms[0].addEventListener('change', (e) => {
     sphereMaterial.color.set(e.target.value);
 });
 
-camera.position.z = 5;
-
+//camera.position.z = 5;
+let animationId;
 function animate() {
 
-    requestAnimationFrame(animate);
+    animationId = requestAnimationFrame(animate);
 
     render();
 
 }
 
 function render() {
-
     const elapsedTime = clock.getElapsedTime()
 
     camera.position.x = Math.cos(elapsedTime * 0.5) * 4;
@@ -208,6 +213,20 @@ function render() {
 
     renderer.render(scene, camera);
 
-}
 
-animate();
+}
+camera.lookAt(cameraTarget);
+renderer.render(scene, camera);
+document.getElementById('cam').addEventListener('change', function(){
+        if(this.checked){
+            animate();
+        }
+        else{
+            
+            camera.position.set(-3, 2, -4);
+            cancelAnimationFrame(animationId);
+            camera.lookAt(cameraTarget);
+            renderer.render(scene, camera);
+        }
+    });
+//animate();
