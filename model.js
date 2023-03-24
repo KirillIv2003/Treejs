@@ -4,6 +4,7 @@ let mesh;
 
 document.forms[0].addEventListener('change', (e) => {
     mesh.material.color.set(e.target.value);
+    renderer.render(scene, camera);
 })
 
 window.addEventListener('resize', onWindowResize);
@@ -90,9 +91,11 @@ scene.add(hemiLight);
 document.getElementById('hemi').addEventListener('change', function(){
     if(this.checked){
         hemiLight.intensity = 1;
+        renderer.render(scene, camera);
     }
     else{
         hemiLight.intensity = 0;
+        renderer.render(scene, camera);
     }
 });
 
@@ -127,6 +130,7 @@ pyramid.castShadow = true;
 pyramid.receiveShadow = true;
 document.forms[0].addEventListener('change', (e) => {
     materialPyramid.color.set(e.target.value);
+    renderer.render(scene, camera);
 });
 
 
@@ -146,9 +150,11 @@ scene.add(directionalLightHelper);
 document.getElementById('direct').addEventListener('change', function(){
     if(this.checked){
         directionalLight.intensity = 1;
+        renderer.render(scene, camera);
     }
     else{
         directionalLight.intensity = 0;
+        renderer.render(scene, camera);
     }
 });
 
@@ -169,9 +175,11 @@ scene.add(pointerLightHelper);
 document.getElementById('point').addEventListener('change', function(){
     if(this.checked){
         pointerLight.intensity = 1;
+        renderer.render(scene, camera);
     }
     else{
         pointerLight.intensity = 0;
+        renderer.render(scene, camera);
     }
 });
 
@@ -191,6 +199,7 @@ scene.add(sphere);
 sphere.castShadow = true;
 document.forms[0].addEventListener('change', (e) => {
     sphereMaterial.color.set(e.target.value);
+    renderer.render(scene, camera);
 });
 
 //camera.position.z = 5;
@@ -222,7 +231,6 @@ document.getElementById('cam').addEventListener('change', function(){
             animate();
         }
         else{
-            
             camera.position.set(-3, 2, -4);
             cancelAnimationFrame(animationId);
             camera.lookAt(cameraTarget);
