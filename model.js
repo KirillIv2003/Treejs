@@ -72,13 +72,13 @@ const plane2Indices = new Uint32Array([
 ]);
 // let indices = [2, 1, 0, 0, 3, 2];
 // plane2Geometry.setIndex(indices);
-plane2Geometry.computeVertexNormals();
+
 plane2Geometry.setAttribute('position', new THREE.BufferAttribute(plane2Vertices, 3));
 plane2Geometry.setIndex(new THREE.BufferAttribute(plane2Indices, 1));
-const plane2Material = new THREE.MeshBasicMaterial({color: '#F5F5F5'});
+plane2Geometry.computeVertexNormals();
+const plane2Material = new THREE.MeshPhongMaterial({color: '#F5F5F5'});
 const plane2 = new THREE.Mesh(plane2Geometry, plane2Material);
 plane2.receiveShadow = true;
-plane2.castShadow = true;
 plane2.position.z = 3;
 plane2.rotation.y = 1;
 scene.add(plane2);
@@ -117,11 +117,11 @@ const indicesPyramid = new Uint32Array([
     2, 3, 4, // треугольник основания
     3, 0, 4 // треугольник основания
 ]);
-geometryPyramid.computeVertexNormals();
+
 geometryPyramid.setAttribute('position', new THREE.BufferAttribute(verticesPyramid, 3));
 geometryPyramid.setIndex(new THREE.BufferAttribute(indicesPyramid, 1));
-
-const materialPyramid = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+geometryPyramid.computeVertexNormals();
+const materialPyramid = new THREE.MeshPhongMaterial({ color: 0xffff00 });
 
 const pyramid = new THREE.Mesh(geometryPyramid, materialPyramid);
 pyramid.position.set(-1, 0.2, 1);
